@@ -1,7 +1,7 @@
 # Mis notas
 
 Indice
-1. Recursos 
+1. Recursos  
 
 
 ## 1. Recursos
@@ -36,9 +36,9 @@ https://zerotomastery.io/resources/
 
 https://goodui.org/
 
-www.pexels.com/
+[www.pexels.com/](https://www.pexels.com/es-es/)
 
-unsplash.com/
+[unsplash.com/](https://unsplash.com/)
 
 https://stock.adobe.com/es/free
 
@@ -48,34 +48,34 @@ https://thenounproject.com/
 
 https://www.freepik.es/
 
-gratisography.com/
+[gratisography.com/](https://gratisography.com/)
 
-morguefile.com/
+[morguefile.com/](https://morguefile.com/)
 
-pixabay.com/
+[pixabay.com/](https://pixabay.com/)
 
-www.stockvault.net/
+[www.stockvault.net/](https://www.stockvault.net/)
 
-picjumbo.com/
+[picjumbo.com/](https://picjumbo.com/)
 
-krakenimages.com/
+[krakenimages.com/](https://krakenimages.com/en/)
 
-pikwizard.com/
+[pikwizard.com/](https://pikwizard.com/)
 
-www.rawpixel.com/
+[www.rawpixel.com/](https://www.rawpixel.com/?sort=shuffle&page=1&feed=creative-feed)
 
-www.reshot.com/
+[www.reshot.com/](https://www.reshot.com/)
 
-www.freeimages.com/
+[www.freeimages.com/](https://www.freeimages.com/es)
 
-kaboompics.com/
+[kaboompics.com/](https://kaboompics.com/)
 
-stocksnap.io/
+[stocksnap.io/](https://stocksnap.io/)
 
-www.canva.com/
+[www.canva.com/](https://www.canva.com/)
 
-www.lifeofpix.com/
+[www.lifeofpix.com/](https://www.lifeofpix.com/)
 
-nos.twnsnd.co/
+[nos.twnsnd.co/](https://nos.twnsnd.co/)
 
-images.superfamous.com/
+[images.superfamous.com/](https://images.superfamous.com/)
