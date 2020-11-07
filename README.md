@@ -1,7 +1,9 @@
 # Mis notas
 
 Indice
-1. Recursos  
+1. Recursos
+2. [Ubuntu para colegas](https://github.com/jrgavilanes/notas/blob/main/ubuntu_para_colegas.md)
+3. [Docker para colegas](https://github.com/jrgavilanes/notas/blob/main/docker_para_colegas.md)
 
 
 ## 1. Recursos
