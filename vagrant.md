@@ -64,6 +64,8 @@ end
 
 ## Integración con VS Studio
 
+https://medium.com/@lopezgand/connect-visual-studio-code-with-vagrant-in-your-local-machine-24903fb4a9de
+
 vagrant ssh-config > conexion_ssh.txt
 
 extensión: remote-ssh ( Microsoft )
