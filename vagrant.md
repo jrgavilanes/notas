@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-## Varias máquinas en red ( no probado )
+## Varias máquinas en red
 
 Vagrantfile
 ```
@@ -61,3 +61,11 @@ Vagrant.configure("2") do |config|
   
 end
 ```
+
+## Integración con VS Studio
+
+vagrant ssh-config > conexion_ssh.txt
+
+extensión: remote-ssh ( Microsoft )
+
+
