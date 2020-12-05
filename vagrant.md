@@ -4,11 +4,13 @@ vagrant up
 
 vagrant halt
 
+vagrant ssh
+
+vagrant status
+
 vagrant reload --provision
 
 vagrant destroy
-
-vagrant ssh
 
 user: vagrant, pass: vagrant
 
