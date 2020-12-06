@@ -30,22 +30,45 @@ user: vagrant, pass: vagrant
 You need to ssh to the vm as usual and then edit /etc/ssh/sshd_config . There you need to set PasswordAuthentication to yes instead of no . This will allow password authentication
 
 Vagrantfile
+
 ```
 $configuracion_inicial = <<-SCRIPT
+
   sudo apt update
   sudo apt upgrade -y
+
   sudo apt install -y -q build-essential git unzip zip nload tree
   sudo apt install -y -q python3-pip python3-dev python3-venv
+
   sudo cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime
+
+  # sudo apt install fail2ban -y
+  # sudo ufw allow 22
+  # sudo ufw allow 80
+  # sudo ufw allow 443
+  # sudo ufw enable
+
+  # cd /home/vagrant
+  # python3 -m venv venv
+  # source venv/bin/activate
+  # ln -s /vagrant code
+
   sudo reboot
+
 SCRIPT
 
 Vagrant.configure("2") do |config|
+  
   config.vm.box = "ubuntu/focal64"
-  config.vm.network "public_network", ip: "192.168.1.75"
-  #config.vm.synced_folder ".", "/home/vagrant", disabled:false
+  
+  # config.vm.network "public_network", ip: "192.168.1.75"
+  config.vm.network "forwarded_port", host: 8000, guest: 8000
+  config.vm.network "forwarded_port", host: 8080, guest: 80
+
   config.vm.provision "shell", inline: $configuracion_inicial
+  
 end
+
 ```
 
 ## Varias máquinas en red
