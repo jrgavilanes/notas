@@ -17,6 +17,8 @@ vagrant halt
 
 vagrant ssh
 
+vagrant ssh-config
+
 vagrant status
 
 vagrant reload --provision
