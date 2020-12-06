@@ -1,3 +1,12 @@
+# Vagrant
+
+https://www.virtualbox.org/
+
+https://www.vagrantup.com/
+
+https://app.vagrantup.com/boxes/search
+
+
 ## Vagrant - Comandos básicos
 
 vagrant init
@@ -21,8 +30,11 @@ You need to ssh to the vm as usual and then edit /etc/ssh/sshd_config . There yo
 Vagrantfile
 ```
 $configuracion_inicial = <<-SCRIPT
-  sudo apt-get update
-  sudo apt-get install nginx -y
+  sudo apt update
+  sudo apt upgrade -y
+  sudo apt install -y -q build-essential git unzip zip nload tree
+  sudo apt install -y -q python3-pip python3-dev python3-venv
+  sudo reboot
 SCRIPT
 
 Vagrant.configure("2") do |config|
