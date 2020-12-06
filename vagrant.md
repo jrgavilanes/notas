@@ -39,6 +39,8 @@ $configuracion_inicial = <<-SCRIPT
 
   sudo apt install -y -q build-essential git unzip zip nload tree
   sudo apt install -y -q python3-pip python3-dev python3-venv
+  
+  sudo apt install -y nginx
 
   sudo cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 
