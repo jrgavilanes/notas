@@ -1,5 +1,7 @@
 ## Vagrant - Comandos básicos
 
+vagrant init
+
 vagrant up
 
 vagrant halt
