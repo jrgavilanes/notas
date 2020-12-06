@@ -4,6 +4,8 @@ https://training.talkpython.fm/courses/getting-started-with-fastapi
 
 ## API mínima
 
+PYTHON >= 3.6
+
 ```python
 import fastapi
 import uvicorn
