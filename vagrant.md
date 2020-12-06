@@ -36,6 +36,7 @@ $configuracion_inicial = <<-SCRIPT
   sudo apt upgrade -y
   sudo apt install -y -q build-essential git unzip zip nload tree
   sudo apt install -y -q python3-pip python3-dev python3-venv
+  sudo cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime
   sudo reboot
 SCRIPT
 
