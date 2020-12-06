@@ -2,7 +2,6 @@
 
 https://training.talkpython.fm/courses/getting-started-with-fastapi
 
-
 ## API mínima
 
 ```python
@@ -94,4 +93,27 @@ async def weather(loc: Location = Depends()):
         return fastapi.Response(content="Error interno", status_code=500)
 ```
 
+
+## Modificado datos desde la API
+
+```python
+from pydantic import BaseModel
+
+class Location(BaseModel):
+    city: str
+    country: Optional[str]='ES'
+    state: Optional[str]=None
+
+class ReportSubmittal(BaseModel):
+    location: Location
+    description: str
+
+@router.post('/api/reports', name='reports')
+async def reports_post(report:ReportSubmittal):
+    return await report_service.add_report(report.description, report.location)
+```
+
+## Topología / arquitectura
+
+NGINX -> GUNICORN -> UVICORN
 
