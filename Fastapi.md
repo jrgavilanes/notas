@@ -131,7 +131,7 @@ NGINX -> GUNICORN -> UVICORN
 ```shell
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y -q build-essential git unzip zip nload tree
+sudo apt install -y -q build-essential git unzip zip nload tree acl
 sudo apt install -y -q python3-pip python3-dev python3-venv
 sudo apt install -y nginx
 sudo cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime
@@ -142,6 +142,10 @@ source venv/bin/activate
 pip install gunicorn uvloop httptools 
 echo "source /mi_app/venv/bin/activate" >> ~/.bashrc
 pip install -r /mi_app/requirements.txt
+
+chmod 777 -R /mi_app
+useradd -M apiuser
+usermod -L apiuser
 
 # sudo apt install fail2ban -y
 # sudo ufw allow 22
@@ -170,7 +174,7 @@ Description=gunicorn uvicorn service from janrax
 After=syslog.target
 
 [Service]
-ExecStart=/mi_app/venv/bin/gunicorn -b 127.0.0.1:8000 -w 4 -k uvicorn.workers.UvicornWorker main:api --name mi_app_svc --chdir /mi_app --access-logfile /mi_app/logs/web_access.log --error-logfile /mi_app/logs/web_errors.log --user vagrant
+ExecStart=/mi_app/venv/bin/gunicorn -b 127.0.0.1:8000 -w 4 -k uvicorn.workers.UvicornWorker main:api --name mi_app_svc --chdir /mi_app --access-logfile /mi_app/logs/web_access.log --error-logfile /mi_app/logs/web_errors.log --user apiuser
 
 # \/ \/ <- Added post recording for better restart perf.
 ExecReload=/bin/kill -s HUP $MAINPID
