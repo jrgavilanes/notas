@@ -191,6 +191,7 @@ NotifyAccess=all
 WantedBy=multi-user.target
 ```
 
+Activa el servicio para arranque al inicio
 ```shell
 sudo cp ./mi_app.service /etc/systemd/system/
 sudo systemctl start mi_app
