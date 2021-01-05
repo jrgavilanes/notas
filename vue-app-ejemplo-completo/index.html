@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+  <div id="app">
+    <v-app>
+      <v-main>
+        <v-container fill-height>
+
+          <v-card class="mx-auto my-12" min-width="300" max-width="500">
+
+            <v-row class="mx-0">
+              <v-col md="12">
+                <v-card-title class="justify-center">Hola {{email}} 😂😂 </v-card-title>
+              </v-col>
+            </v-row>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="primary mr-2 mt-4 mb-4" title="Cerrar sesión" @click="cerrarSesion()">
+                Cerrar sesión
+              </v-btn>
+            </v-card-actions>
+
+          </v-card>
+
+        </v-container>
+
+
+      </v-main>
+    </v-app>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="./jwt-decode.js"></script>
+  
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data() {
+        return {
+          token: '',
+          id: '',
+          email: '',
+          rol: '',
+          expira: '',
+        }
+      },
+      methods: {
+        lagazo() {
+          return new Promise(resolve => {
+            setTimeout(() => {
+              resolve('resolved');
+            }, 1000);
+          });
+        },
+        cerrarSesion() {
+          localStorage.removeItem('token');
+          this.token = '';
+          this.id = '';
+          this.email = '';
+          this.rol = '';
+          this.expira = '';
+          window.location.href = 'login.html';
+        },
+      },
+      created() {
+        if (!localStorage.getItem('token')) {
+          window.location.href = 'login.html';
+          return;
+        }
+        this.token = localStorage.getItem('token');
+        const { id, email, rol, expira } = jwt_decode(this.token)
+        this.email = email;
+      },
+    })
+  </script>
+</body>
+
+</html>
