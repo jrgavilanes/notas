@@ -27,10 +27,10 @@
               
               <v-card-text>
                 <v-row align="center" class="mx-0">
-                  <v-text-field label="Correo electrónico" class="mt-4" outlined v-model.trim()="email"></v-text-field>
+                  <v-text-field label="Correo electrónico" class="mt-4" outlined v-model="email"></v-text-field>
                 </v-row>
                 <v-row align="center" class="mx-0">
-                  <v-text-field label="Contraseña" type="password" class="mt-4" outlined v-model.trim()="password"></v-text-field>
+                  <v-text-field label="Contraseña" type="password" class="mt-4" outlined v-model="password"></v-text-field>
                 </v-row>
               </v-card-text>
               
@@ -85,22 +85,37 @@
           return new Promise(resolve => {
             setTimeout(() => {
               resolve('resolved');
-            }, 1000);
+            }, 500);
           });         
         },
         async validaUsuario() {
-          if (this.email.trim() === '' || this.password === '') {
-            // alert("Rellena email y password");
+          
+          this.email = this.email.trim()          
+
+          if (this.email === '' || this.password === '') {          
             this.text_alert='Rellena email y password'
-            this.alert=true;
-            
+            this.alert=true;            
             return;
           }
+          
           this.loading = true
-          await this.lagazo()
-          this.loading = false
-          localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OTAiLCJlbWFpbCI6ImpyZ2F2aWxhbmVzQGdtYWlsLmNvbSIsInJvbCI6ImFkbWluIiwiZXhwaXJhIjoiMjAyMTAxMDYifQ.AuqO2C7JhcQXutB11fE9VJdiLdxpjZrZJ-cGL11_FxM');
-          window.location.href = 'index.html';          
+          await this.lagazo()          
+          
+          // let response = await fetch("/fake-data/usuarios.json");
+          let response = await fetch("/fake-data/usuarios.json", { headers: { "token": "Bearer API_TOKEN"} });
+          response = await response.json()
+          const usuario = response.usuarios[this.email]
+          if (usuario) {
+            // console.log("está", usuario.token)
+            localStorage.setItem('token', usuario.token);
+            window.location.href = 'index.html';          
+          } else {
+            this.text_alert='Usuario no válido'
+            this.alert=true;
+          }
+          
+          this.loading=false;
+
         }
 
       },
