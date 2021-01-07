@@ -1,6 +1,0 @@
-{
-   "usuarios": {
-       "jrgavilanes@gmail.com": {"userid": 123456, "email": "jrgavilanes@gmail.com", "password": "1234", "rol": "admin", "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjEyMzQ1NiwiZW1haWwiOiJqcmdhdmlsYW5lc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQiLCJyb2wiOiJhZG1pbiJ9.lEYYHUQ9DrmL5QlpoLn5Xz8lFfPF21DkTcidv6dulQA"},
-       "pepe@ya.com": {"userid": 123458, "email": "pepe@ya.com", "password": "123", "rol": "regulero", "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjEyMzQ1OCwiZW1haWwiOiJwZXBlQC5jb20iLCJwYXNzd29yZCI6IjEyMyIsInJvbCI6InJlZ3VsZXJvIn0.8lK_WRMmSLupJXLgza386S3yjoGx9zUWLH_RN9j4hU0"}
-   } 
-}
