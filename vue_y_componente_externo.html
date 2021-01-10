@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <input v-model="message" type="text" />
+        <button @click="dale">cambia codigo</button>
+        <div id="qrcode"></div>
+    </div>
+
+    <!-- https://github.com/davidshimjs/qrcodejs/blob/master/jquery.min.js -->
+    <script src="./qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Mensaje'
+            },
+            methods: {
+                dale() {
+                    qrcode.clear(); // clear the code.
+                    qrcode.makeCode(this.message); // make another code.
+                }
+            }
+        })
+
+        console.log(app.$data.message);
+
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: app.$data.message,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    </script>
+
+</body>
+
+</html>
