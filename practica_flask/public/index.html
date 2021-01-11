@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask</title>
+    <style>
+        select {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <div v-if="estado==='login'">
+            <form @submit.prevent="login()">
+                logueo
+                <input type="text" placeholder="usuario" v-model="miUsuario">
+                <input type="text" placeholder="nombre canal" v-model="miCanal">
+                <input type="submit" value="dale">
+            </form>
+        </div>
+
+        <div v-if="estado==='chat'">
+            I'm in!
+            <button @click="logout">Salir</button>
+            <table>
+                <tr>
+                    <td>canales</td>
+                    <tr>mensajes</tr>
+                </tr>
+                <tr>
+                    <td>
+                        <select @change="pon_mensajes_canal" v-model="canal_seleccionado" size="10">
+                            <option v-for="(item,id) in canales" :value="item" :selected="item==canal_seleccionado">{{item}}</option>
+                        </select>
+                        <form @submit.prevent="crear_canal">
+                            <input v-model="miCanal" type="text" placeholder="nuevo canal">
+                            <button>Crear canal</button>
+                        </form>
+                    </td>
+                    <td>
+                        <li v-for="(item,id) in mensajes" :key="id">
+                            {{ item }}
+                        </li>
+                        <form @submit.prevent="enviar_mensaje">
+                            <input v-model="miMensaje" type="text" placeholder="tu mensaje">
+                            <button>enviar mensaje</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+        const app = new Vue({
+            el: '#app', 
+            methods: {
+                enviar_mensaje(){
+                    this.bdMensajes[this.canal_seleccionado].push(this.miMensaje.trim());
+                    this.miMensaje='';
+
+                },
+                crear_canal() {
+                    const nuevo_canal = this.miCanal.trim().toLowerCase();
+                    
+                    if (this.canales.includes(nuevo_canal)) {
+                        alert(`Canal ${nuevo_canal} ya existe en canales`);
+                        return;
+                    }
+
+                    if (nuevo_canal==='') {
+                        alert(`No puede insertar un canal vacio`);
+                        return;
+                    }
+
+                    // this.canales.push(nuevo_canal);
+                    this.bdMensajes[nuevo_canal]=["nuevo canal creado por juanra"];
+                    this.canales = Object.keys(this.bdMensajes);    
+                    this.miCanal='';
+                    console.log(this.bdMensajes);
+                },
+                pon_mensajes_canal(){
+                    console.log("pues", this.bdMensajes[this.canal_seleccionado]);
+                    this.mensajes = this.bdMensajes[this.canal_seleccionado];
+
+                },
+                cambiaEstado(nuevo_estado) {
+                    this.estado=nuevo_estado;
+                    sessionStorage.setItem('estado', nuevo_estado);
+                },
+                login() {
+                    if (this.miUsuario === '' || this.miCanal === '') {
+                        alert("Rellena usuario y canal");
+                        return;
+                    }
+                    this.cambiaEstado('chat');
+                },
+                logout() {
+                    this.cambiaEstado('login');
+                    this.miUsuario = '';
+                    this.miCanal = '';
+                    sessionStorage.removeItem('estado');
+                },
+            },
+            data: {
+                estado: 'login',
+                miUsuario: '',
+                miCanal: '',
+                miMensaje: '',
+                canales: ['uno', 'dos', 'tres'],
+                mensajes: ['msg1', 'msg2', 'msg3'],
+                canal_seleccionado: 'uno',
+                bdMensajes: {
+                    "canal1": ["1 msg1", "1 msg2", "1 msg3", "1 msg4"],
+                    "canal2": ["2 msg1", "2 msg2", "2 msg3", "2 msg4"],
+                    "canal3": ["3 msg1", "3 msg2", "3 msg3", "3 msg4"],
+                    "canal4": ["4 msg1", "4 msg2", "4 msg3", "4 msg4"],
+                }
+            },
+            mounted() {
+                if (sessionStorage.getItem('estado')) {
+                    this.estado = sessionStorage.getItem('estado');
+                }
+                this.canales = Object.keys(this.bdMensajes);
+                this.canal_seleccionado = this.canales[0];
+                this.mensajes = this.bdMensajes[this.canal_seleccionado];
+            }
+        });
+    </script>
+
+</body>
+
+</html>
