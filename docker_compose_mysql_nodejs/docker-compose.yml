@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  # Database
+  db:
+    image: mysql:5.7
+    ports: 
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+    # restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: clave
+      MYSQL_DATABASE: mibd
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: clave
+    networks:
+      - mi-red
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    # restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: password 
+    networks:
+      - mi-red
+  # Wordpress
+  ubuntu:
+    depends_on:
+      - db
+    image: ubuntu:20.04
+    ports:
+      - '5000:5000'
+    # restart: always
+    # command: apt update -y && apt install nodejs npm -y && sleep 72000
+    command: sleep 72000
+    volumes: ['./code:/app']
+    environment:
+      DB_HOST: db
+      DB_USER: usuario
+      DB_PASSWORD: clave
+      DB_DATABASE: mibd
+    networks:
+      - mi-red
+networks:
+  mi-red:
+volumes:
+  db_data:
