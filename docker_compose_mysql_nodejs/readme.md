@@ -18,16 +18,24 @@ dpkg-reconfigure tzdata
 
 
 ## Comandos docker
+
 docker-compose up -d
+
 docker-compose down --volumes 
+
 docker-compose ps
+
 docker exec -it nodejsejemplo_ubuntu_1 bash
+
 docker-compose start
+
 docker-compose stop
 
 
 
 ## Esquema BD
+
+http://knexjs.org/
 
 ```sql
 CREATE TABLE usuarios (
