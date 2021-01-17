@@ -1,8 +1,8 @@
 # Notas rápidas
 
 ## instalar version node concreta
-
-apt update -y && apt install curl
+```bash
+apt update -y && apt install curl -y
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 si eres root: curl -sL https://deb.nodesource.com/setup_14.x | bash -
 apt update -y && apt install nodejs
@@ -12,30 +12,25 @@ npm -v
 ## Zona horarias
 apt install tzdata
 dpkg-reconfigure tzdata
+```
 
 
 
 
 
 ## Comandos docker
-
+```bash
 docker-compose up -d
-
 docker-compose down --volumes 
-
 docker-compose ps
-
 docker exec -it nodejsejemplo_ubuntu_1 bash
-
 docker-compose start
-
 docker-compose stop
+```
 
 
 
 ## Esquema BD
-
-http://knexjs.org/
 
 ```sql
 CREATE TABLE usuarios (
@@ -47,11 +42,18 @@ CREATE TABLE usuarios (
     UNIQUE KEY unique_email (email)
 );
 
-
 INSERT INTO `usuarios` (`id`, `email`, `password`, `gendate`, `moddate`) VALUES (NULL, 'jrgavilanes@gmail.com', 'juanra', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-insert into usuarios (email, password) values ('otro','otro');
+insert into usuarios (email, password) values ('jrgavilanes@gmail.com','juanra');
+insert into usuarios (email, password) values ('usuario2','2222222');
 
 update usuarios set email = 'otro22@ya.com' where id = 2;
+
+```
+
+## Ejemplos knex
+
+```javascript
+const usuarios = await db.schema.raw('select email,password from usuarios where id = 1');
 
 ```

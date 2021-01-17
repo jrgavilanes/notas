@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <div id="app">
+    <button @click="cerrarSesion">Cerrar sesión</button>
+    {{msg}}
+
+    <button @click="privado">mensaje privado</button>
+  </div>
+
+  <script src="./js/jwt-decode.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>  
+  <script>
+    const app = new Vue({
+    el: '#app',
+    data: {
+      msg: 'You are in!',
+      token: '',
+      email:'',
+    },    
+    created(){
+      if (!localStorage.getItem('token')) {
+          window.location.href = 'login.html';
+          return;
+      } else {
+        this.token = localStorage.getItem('token');
+        // console.log('puesss', jwt_decode(this.token).data.email)
+        this.email=jwt_decode(this.token).data.email;
+        this.msg = `Hola ${this.email} !`;
+      }
+    },
+    methods: {
+      cerrarSesion(){
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+        return;
+      },
+      async privado() {
+        try {
+          respuesta = await fetch('/privado', {
+                                  method: 'GET',
+                                  headers: {
+                                    'Content-Type': 'application/json',
+                                    'token': this.token+'nabo'
+                                  }
+                                });
+          console.log('codigo respuesta', respuesta.status)
+          respuesta = await respuesta.json();
+          respuesta.status
+          console.log('puesssss', respuesta);
+        } catch (e) {
+          console.log(error, e);
+
+        }
+        
+      }
+    }
+  });
+
+  </script>
+  
+  
+</body>
+</html>

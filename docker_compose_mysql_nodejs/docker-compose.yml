@@ -29,7 +29,7 @@ services:
       MYSQL_ROOT_PASSWORD: password 
     networks:
       - mi-red
-  # Wordpress
+  # Servidor de aplicación
   ubuntu:
     depends_on:
       - db
