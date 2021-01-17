@@ -4,97 +4,176 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hello Bulma!</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+  <title>jrgx - Regisro</title>
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script> -->
+  <link rel="stylesheet" href="/css/bulma.min.css">
+  <script defer src="/js/all.js"></script>
 </head>
 
 <body>
-
-  <section class="section">
-
-
-
-    <div class="columns">
-      <div class="column is-one-third is-offset-one-third">
-        <h1 class="title">
-          Registro
-        </h1>
-        <p class="subtitle">
-          Crea tu cuenta si todavía no la tienes
-        </p>
-
+  <div id="app">
+    <form @submit.prevent="registrar()">
+      <section class="section">
         <div class="columns">
-          <div class="column">
-            
-
-            <div class="field">
-              <label class="label">Email</label>
-              <div class="control has-icons-left has-icons-right">
-                <input class="input is-success" type="email" placeholder="Email input" value="hello@" autofocus>
-                <span class="icon is-small is-left">
-                  <i class="fas fa-envelope"></i>
-                </span>
-                <span class="icon is-small is-right">
-                  <i class="fas fa-exclamation-triangle"></i>
-                </span>
+          <div class="column is-one-third is-offset-one-third">
+            <h1 class="title">
+              Registro {{msg}}
+            </h1>
+            <p class="subtitle">
+              Crea tu cuenta si todavía no la tienes
+            </p>
+            <div class="columns">
+              <div class="column">
+                <div class="field">
+                  <label class="label">Email</label>
+                  <div class="control has-icons-left has-icons-right">
+                    <input class="input" :class="error_email?'is-danger':'is-success'" type="email"
+                      placeholder="Email input" autofocus v-model.trim="email">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-envelope"></i>
+                    </span>
+                    <span v-show="error_email" class="icon is-small is-right">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </span>                                        
+                    <span v-show="!error_email" class="icon is-small is-right">
+                      <i class="fas fa-check"></i>
+                    </span>
+                  </div>
+                  <p v-if="error_email" class="help is-danger">{{error_email}}</p>
+                </div>
+                <div class="field">
+                  <label class="label">Password</label>
+                  <div class="control has-icons-left has-icons-right">
+                    <input class="input" :class="error_password?'is-danger':'is-success'" type="password"
+                      placeholder="Email input" v-model.trim="password">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-key"></i>
+                    </span>
+                    <span v-show="error_password" class="icon is-small is-right">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </span>
+                    <span v-show="!error_password" class="icon is-small is-right">
+                      <i class="fas fa-check"></i>
+                    </span>
+                  </div>
+                  <p v-if="error_password" class="help is-danger">{{error_password}}</p>
+                </div>
+                <div class="field">
+                  <label class="label">Repite password</label>
+                  <div class="control has-icons-left has-icons-right">
+                    <input class="input" :class="error_password2?'is-danger':'is-success'" type="password"
+                      placeholder="Email input" v-model.trim="password2">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-key"></i>
+                    </span>
+                    <span v-show="error_password2" class="icon is-small is-right">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </span>
+                    <span v-show="!error_password2" class="icon is-small is-right">
+                      <i class="fas fa-check"></i>
+                    </span>
+                  </div>
+                  <p v-if="error_password2" class="help is-danger">{{error_password2}}</p>
+                </div>
+                <div class="mt-5">
+                  <div class="field">
+                    <input type="submit" class="button  is-link is-pulled-right" value="Crear cuenta" :disabled="!activar_boton">
+                  </div>
+                  <div class="field">
+                    <a href="login.html" class="button is-link is-light is-pulled-left">He recordado mi cuenta</a>
+                  </div>
+                </div>
               </div>
-              <p class="help is-danger">This email is invalid</p>
             </div>
-
-            <div class="field">
-              <label class="label">Password</label>
-              <div class="control has-icons-left has-icons-right">
-                <input class="input is-danger" type="password" placeholder="Email input" value="hello@">
-                <span class="icon is-small is-left">
-                  <i class="fas fa-key"></i>
-                </span>
-                <!-- <span class="icon is-small is-right">
-                  <i class="fas fa-exclamation-triangle"></i>
-                </span> -->
-              </div>
-              <p class="help is-danger">This email is invalid</p>
-            </div>
-
-            <div class="field">
-              <label class="label">Repite password</label>
-              <div class="control has-icons-left has-icons-right">
-                <input class="input is-danger" type="password" placeholder="Email input" value="hello@">
-                <span class="icon is-small is-left">
-                  <i class="fas fa-key"></i>
-                </span>
-                <!-- <span class="icon is-small is-right">
-                  <i class="fas fa-exclamation-triangle"></i>
-                </span> -->
-              </div>
-              <p class="help is-danger">This email is invalid</p>
-            </div>
-
-            <div class="mt-5">
-              <div class="field">
-                <button class="button  is-link is-pulled-right">Crear cuenta</button>
-              </div>
-              <div class="field">
-                <a href="login.html" class="button is-link is-light is-pulled-left">He recordado mi cuenta</a>
-              </div>            
-            </div>
-
-            
-              
-            
-
-            
-
-            
           </div>
-
         </div>
-      </div>
-    </div>
-    </div>
-  </section>
+        </div>
+      </section>
+    </form>
+  </div>
 
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script> -->
+  <script src="/js/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        email: 'jr@co.com',
+        password: '123456',
+        password2: '123456',
+        msg: ''
+        // error_email: 'Email requerido',
+        // error_password: 'Mínimo de 6 caracteres',
+        // error_password2: 'Igual que password',
+      },
+      created() {
+      },
+      computed: {
+        error_email: function (){
+          if (!this.email.length) {
+            return 'Email válido requerido'
+          }
+          if (!(this.email.includes('@') && this.email.includes('.'))) {
+            return 'Introduzca un email valido'
+          }
+          return '';
+        },
+        error_password: function(){
+          if (this.password.length<6) {
+            return 'Mínimo de 6 caracteres'
+          }
+          return '';
+        },
+        error_password2: function(){
+          if (this.password!==this.password2) {
+            return 'Los campos passwords no son iguales'
+          }
+          return '';
+        },
+        activar_boton(){
+          if (this.error_email || this.error_password || this.error_password2 || this.msg) {
+            return false;
+          }
+          return true;
+        }
+      },
+      methods: {
+        async registrar() {
+          this.msg = 'enviando información';
 
+          datos = JSON.stringify({
+            email: this.email,
+            password: this.password
+          });
+
+          
+          respuesta = await fetch('/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: datos
+          });
+
+          if (respuesta.status == 200) {
+            // respuesta = await respuesta.json();
+            respuesta = await respuesta.json();
+            console.log(respuesta.status, respuesta);
+            this.msg='';
+            localStorage.setItem('token', respuesta.token);
+            return window.location.href = 'main.html';
+          } else {
+            respuesta = await respuesta.json();
+            // console.log(respuesta);
+            this.msg='';
+            alert(respuesta.msg);
+          }
+        }
+      }
+    });
+
+  </script>
 
 </body>
 

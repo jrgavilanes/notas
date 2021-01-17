@@ -101,11 +101,17 @@
                                   },
                                   body: datos
                                 });
-        respuesta = await respuesta.json();
-        console.log(respuesta);
-
-        localStorage.setItem('token', respuesta.token);
-        return window.location.href = 'main.html';
+        if (respuesta.status==200) {
+          respuesta = await respuesta.json();
+          console.log(respuesta);
+          localStorage.setItem('token', respuesta.token);
+          return window.location.href = 'main.html';
+        } else {
+          respuesta = await respuesta.json();
+          console.log(respuesta);
+          alert(respuesta.msg);
+        }
+        
       }
     }
   });

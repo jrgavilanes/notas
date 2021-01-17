@@ -1,6 +1,9 @@
 const express = require('express')
 const jwt = require('jsonwebtoken');
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 const port = 5000
 
 const db = require('knex')({
@@ -66,12 +69,36 @@ app.post('/login', async (req,res)=>{
   // console.log("pues", req.body)
   // res.json(req.body);
 
-  let user = {userid: 123456, email: req.body.email};
-  let token = jwt.sign({data: user}, 'secretito', {expiresIn: 3600})
-  return res.json({
-      user,
-      token
-  })
+  const {email, password } = req.body;
+
+  let datos = await db('usuarios').where({email,}).select('id','password','email');
+  if (datos.length>0) {
+    const userid = datos[0].id;
+    const password_encriptado = datos[0].password;
+    const email_almacenado = datos[0].email;
+    console.log('llega', userid, password_encriptado);
+    const valida = await bcrypt.compare(password, password_encriptado);
+    if (valida && email===email_almacenado) {
+      const user = {userid, email};
+      let token = jwt.sign({data: user}, 'secretito', {expiresIn: 3600})
+      return res.json({
+        // user,
+        token
+      });
+    } else {
+      return res.status(404).json({msg: 'Usuario no válido'});
+    }
+  } else {
+    return res.status(404).json({msg: 'Usuario no válido'});
+  }
+  
+
+  // let user = {userid: 123456, email: req.body.email};
+  // let token = jwt.sign({data: user}, 'secretito', {expiresIn: 3600})
+  // return res.json({
+  //     user,
+  //     token
+  // })
 
 });
 
@@ -93,3 +120,42 @@ res.status(201).json(req.body);
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
+
+
+
+app.post('/register', async (req,res)=>{
+
+  try {
+
+    // console.log('llega', req.body);
+    const {email, password } = req.body;
+
+    const salt = await bcrypt.genSalt(saltRounds);
+    const password_encriptado = await bcrypt.hash(password, salt);
+  
+
+    let userid = await db('usuarios').insert({email: email, password: password_encriptado});
+    userid = userid[0];
+
+    // console.log('pues', respuesta[0]);
+    // res.send(respuesta)
+
+    const user = {userid, email};
+    let token = jwt.sign({data: user}, 'secretito', {expiresIn: 3600})
+    return res.json({
+        // user,
+        token
+    });
+
+    
+  } catch (error) {
+
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({msg:'cuenta de email ya existe'});
+    }
+
+    return res.status(400).json({msg:'No se ha podido registrar al usuario'});
+    
+  }
+
+});
