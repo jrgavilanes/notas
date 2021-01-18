@@ -4,9 +4,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hello Bulma!</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+  <title>Acceder</title>
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script> -->
+  <link rel="stylesheet" href="/css/bulma.min.css">
+  <script defer src="/js/all.js"></script>
 </head>
 
 <body>
@@ -22,6 +24,9 @@
           </p>
           <div class="columns">
             <div class="column">
+              <div v-show="msg"class="notification is-danger">
+                {{msg}}
+              </div>
               <div class="field">
                 <label class="label">Email</label>
                 <div class="control has-icons-left has-icons-right">
@@ -29,30 +34,27 @@
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
-                  <span class="icon is-small is-right">
+                  <span v-show="msg" class="icon is-small is-right">
                     <i class="fas fa-exclamation-triangle"></i>
                   </span>
-                </div>
-                <p class="help is-danger">This email is invalid</p>
+                </div>                
               </div>
 
               <div class="field">
                 <label class="label">Password</label>
                 <div class="control has-icons-left has-icons-right">
-                  <input class="input is-danger" type="password" placeholder="Email input" value="hello@" v-model="password">
+                  <input class="input is-danger" type="password" placeholder="" value="hello@" v-model="password">
                   <span class="icon is-small is-left">
                     <i class="fas fa-key"></i>
                   </span>
-                  <!-- <span class="icon is-small is-right">
+                  <span v-show="msg" class="icon is-small is-right">
                     <i class="fas fa-exclamation-triangle"></i>
-                  </span> -->
-                </div>
-                <p class="help is-danger">This email is invalid</p>
+                  </span>
+                </div>                
               </div>
-
               <div class="mt-5">
                 <div class="field">
-                  <button class="button  is-link is-pulled-right" @click="hola">Entrar</button>
+                  <button class="button  is-link is-pulled-right" @click="login">Entrar</button>
                 </div>
                 <div class="field">
                   <a href="register.html" class="button is-link is-light is-pulled-left">No tengo cuenta</a>
@@ -66,13 +68,15 @@
     </section>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script> -->
+  <script src="/js/vue.js"></script>
   <script>
     const app = new Vue({
     el: '#app',
     data: {
       email: '',
       password: '',
+      msg: '',
     },    
     created(){
       // if (!localStorage.getItem('token')) {
@@ -86,7 +90,7 @@
       //   window.location.href = 'login.html';
       //   return;
       // },
-      async hola(){
+      async login(){
         datos = JSON.stringify({
             email: this.email,
             password: this.password
@@ -101,6 +105,7 @@
                                   },
                                   body: datos
                                 });
+        
         if (respuesta.status==200) {
           respuesta = await respuesta.json();
           console.log(respuesta);
@@ -109,7 +114,8 @@
         } else {
           respuesta = await respuesta.json();
           console.log(respuesta);
-          alert(respuesta.msg);
+          this.msg=respuesta.msg;
+          // alert(respuesta.msg);
         }
         
       }

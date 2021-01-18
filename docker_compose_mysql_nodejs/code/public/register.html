@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jrgx - Regisro</title>
+  <title>Regisro</title>
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
   <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script> -->
   <link rel="stylesheet" href="/css/bulma.min.css">
@@ -25,6 +25,9 @@
             </p>
             <div class="columns">
               <div class="column">
+                <div v-show="msg"class="notification is-danger">
+                  {{msg}}
+                </div>
                 <div class="field">
                   <label class="label">Email</label>
                   <div class="control has-icons-left has-icons-right">
@@ -78,7 +81,7 @@
                 </div>
                 <div class="mt-5">
                   <div class="field">
-                    <input type="submit" class="button  is-link is-pulled-right" value="Crear cuenta" :disabled="!activar_boton">
+                    <input type="submit" class="button is-link is-pulled-right" value="Crear cuenta" :disabled="!envio_bloqueado">
                   </div>
                   <div class="field">
                     <a href="login.html" class="button is-link is-light is-pulled-left">He recordado mi cuenta</a>
@@ -102,7 +105,8 @@
         email: 'jr@co.com',
         password: '123456',
         password2: '123456',
-        msg: ''
+        msg: '',
+        envio_bloqueado: true,
         // error_email: 'Email requerido',
         // error_password: 'Mínimo de 6 caracteres',
         // error_password2: 'Igual que password',
@@ -140,6 +144,9 @@
       },
       methods: {
         async registrar() {
+
+          this.envio_bloqueado = false;
+
           this.msg = 'enviando información';
 
           datos = JSON.stringify({
@@ -157,7 +164,6 @@
           });
 
           if (respuesta.status == 200) {
-            // respuesta = await respuesta.json();
             respuesta = await respuesta.json();
             console.log(respuesta.status, respuesta);
             this.msg='';
@@ -165,10 +171,9 @@
             return window.location.href = 'main.html';
           } else {
             respuesta = await respuesta.json();
-            // console.log(respuesta);
-            this.msg='';
-            alert(respuesta.msg);
+            this.msg = respuesta.msg;            
           }
+          this.envio_bloqueado = true;
         }
       }
     });
