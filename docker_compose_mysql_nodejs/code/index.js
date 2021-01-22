@@ -179,5 +179,22 @@ app.post('/crearChat', verificarAuth, async (req,res)=>{
     res.status(400).json({ msg: 'Error al crear chat' });
   }
 
+});
+
+
+app.get('/verChats', verificarAuth, async (req,res)=>{
+
+  try {
+    // const { nombre_chat, imagen_chat } = req.body;
+    // console.log(req.body);
+    const chats = await db.select('id', 'nombre', 'image_url').from('chats').orderBy('id','desc');
+    console.log(chats)
+    if (!chats.length) {
+      return res.status(404).json({ msg: 'No hay chats' });
+    }
+    res.json({ chats });
+  } catch (e) {
+    res.status(400).json({ msg: 'Error al mostrar chats' });
+  }
 
 });

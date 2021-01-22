@@ -141,7 +141,7 @@
                 <div class="field">
                   <label class="label">Nombre del chat</label>
                   <div class="control has-icons-left has-icons-right">
-                    <input class="input is-success" type="text" placeholder="Nombre del chat" v-model="nombre_chat" autofocus>
+                    <input class="input is-success" type="text" placeholder="Nombre del chat" v-model.trim="nombre_chat" autofocus>
                     <span class="icon is-small is-left">
                       <i class="fas fa-rss-square"></i>
                     </span>
@@ -418,6 +418,7 @@
         return;
       },
       async crearChat() {
+        if (!this.nombre_chat) return alert('Nombre chat es obligatorio');
         try {
           let data = {
             nombre_chat: this.nombre_chat,
@@ -441,7 +442,10 @@
           }
           respuesta = await respuesta.json();
           // console.log('puesssss', respuesta.id_chat);
-          return window.location.href = `/viewchat.html?id=${respuesta.id_chat}`;
+          // return window.location.href = `/viewchat.html?id=${respuesta.id_chat}`;
+
+          return window.location.href = '/index.html';
+          
           
         } catch (e) {
           console.log(error, e);
