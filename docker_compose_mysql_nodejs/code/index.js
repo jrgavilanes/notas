@@ -159,3 +159,25 @@ app.post('/register', async (req,res)=>{
   }
 
 });
+
+
+app.post('/crearChat', verificarAuth, async (req,res)=>{
+
+  try {
+    const { nombre_chat, imagen_chat } = req.body;
+    // console.log(req.body);
+    const respuesta = await db('chats').insert({ nombre: nombre_chat, image_url: imagen_chat });
+    // console.log(respuesta)
+    if (!respuesta.length) {
+      return res.status(400).json({ msg: 'Error al crear chat' });
+    }
+    res.json({ id_chat: respuesta[0] });
+  } catch (e) {
+    if (e.code==='ER_DUP_ENTRY') {
+      return res.status(400).json({ msg: 'El nombre del chat ya existe' });
+    }
+    res.status(400).json({ msg: 'Error al crear chat' });
+  }
+
+
+});

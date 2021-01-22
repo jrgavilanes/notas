@@ -1,5 +1,12 @@
 # Notas rápidas
 
+
+## todo
+
+ver chats en index.html
+ver chat html
+
+
 ## instalar version node concreta
 ```bash
 apt update -y && apt install curl -y
@@ -48,6 +55,18 @@ insert into usuarios (email, password) values ('jrgavilanes@gmail.com','juanra')
 insert into usuarios (email, password) values ('usuario2','2222222');
 
 update usuarios set email = 'otro22@ya.com' where id = 2;
+
+CREATE TABLE chats (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    image_url VARCHAR(100) DEFAULT 'https://robohash.org/DEFECTO',
+    num_mensajes INT UNSIGNED DEFAULT 0,
+    gendate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    moddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_nombre (nombre)
+);
+
+INSERT INTO chats (NOMBRE) VALUES('MI CHAT');
 
 ```
 
