@@ -387,14 +387,24 @@
     },    
     created(){
       if (!localStorage.getItem('token')) {
-          window.location.href = 'login.html';
-          return;
-      } else {
-        this.token = localStorage.getItem('token');
-        // console.log('puesss', jwt_decode(this.token).data.email)
-        this.email=jwt_decode(this.token).data.email;
-        // this.msg = `Hola ${this.email} !`;
+        window.location.href = 'login.html';
+        return;
       }
+      
+      const params = new URLSearchParams(window.location.search);
+      if (!params.has('id')) {
+        return alert("chat no indicado");
+      }
+
+      const chat_id = params.get('id');
+      console.log('chat', chat_id);
+
+
+      this.token = localStorage.getItem('token');
+      // console.log('puesss', jwt_decode(this.token).data.email)
+      this.email=jwt_decode(this.token).data.email;
+      // this.msg = `Hola ${this.email} !`;
+      
     },
     methods: {
       cerrarSesion(){

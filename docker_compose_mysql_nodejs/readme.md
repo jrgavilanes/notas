@@ -68,6 +68,16 @@ CREATE TABLE chats (
 
 INSERT INTO chats (NOMBRE) VALUES('MI CHAT');
 
+CREATE TABLE mensajes (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    chat_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    mensaje VARCHAR(255) NOT NULL,
+    gendate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (chat_id) REFERENCES chats(id),
+    FOREIGN KEY (user_id) REFERENCES usuarios(id)
+);
+
 ```
 
 ## Ejemplos knex
