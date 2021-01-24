@@ -119,34 +119,58 @@
                 <li class="is-active">
                   <a >
                     <span class="icon is-small"><i class="fas fa-users" aria-hidden="true"></i></span>
-                    <span>COMUNIDAD DE LOS PRIMOS QUE LO FLIPAS!!</span>
+                    <span>{{nombre_chat}}</span>
                   </a>
                 </li>                
               </ul>
             </div>
 
-            <div class="control has-icons-left has-icons-right">
-              <input class="input is-medium" type="text" placeholder="Escribe tu mensaje">
-              <span class="icon is-left">
-                <i class="fas fa-keyboard"></i>
-              </span>              
+            <div>
+
+              <div class="control has-icons-left has-icons-right">
+                <input class="input is-medium" type="text" placeholder="Escribe tu mensaje">
+                <span class="icon is-left">
+                  <i class="fas fa-keyboard"></i>
+                </span>              
+              </div>
+  
+              <button class="button is-medium" @click="verMensajes">
+                <span class="icon is-small">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Enviar</span>
+              </button>
+
             </div>
+            
+
             <br>
 
-
-            <div class="box is-pulled-right" style="width: 90%;">
+            <div v-if="msgs.length==0" class="box">
               <article class="media">
                 <div class="media-content">
                   <div class="content">
                     <p>
-                      <strong>yo</strong> <small class="is-pulled-right">31m</small>
-                      <br>
-                      Lorem ipsum dolor sit amet...                      
+                      <button v-show="recargando" class="button is-link is-loading">Loading</button>
+                      <strong>{{show_msg}}</strong>                                            
                     </p>
               </article>
             </div>
 
-            <div class="box is-pulled-left" style="width: 90%;">
+
+            <div v-for="msg in msgs" class="box" :class="msg.autor!=email?'is-pulled-left':'is-pulled-right'" style="width: 90%;">
+              <article class="media">
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>{{msg.autor}}</strong> <small class="is-pulled-right">{{msg.gendate}}</small>
+                      <br>
+                      {{msg.mensaje}}
+                    </p>
+              </article>
+            </div>
+
+            <!-- <div class="box is-pulled-left" style="width: 90%;">
               <article class="media">
                 <div class="media-content">
                   <div class="content">
@@ -156,7 +180,7 @@
                       Lorem ipsum dolor sit amet...                      
                     </p>
               </article>
-            </div>
+            </div> -->
 
             
 
@@ -380,10 +404,15 @@
     const app = new Vue({
     el: '#app',
     data: {
-      msg: 'You are in!',
+      show_msg: '',
       token: '',
       email:'',
+      chat_id: '',
+      last_msg_id:0,
       ver_menu:false,
+      msgs: [],
+      nombre_chat:'',
+      recargando:true,
     },    
     created(){
       if (!localStorage.getItem('token')) {
@@ -397,16 +426,62 @@
       }
 
       const chat_id = params.get('id');
-      console.log('chat', chat_id);
+      // console.log('chat', chat_id);
+      this.chat_id = chat_id;
+
+      if (params.has('nombre')) {
+        this.nombre_chat = params.get('nombre');
+      }
 
 
       this.token = localStorage.getItem('token');
       // console.log('puesss', jwt_decode(this.token).data.email)
       this.email=jwt_decode(this.token).data.email;
       // this.msg = `Hola ${this.email} !`;
+
+      this.verMensajes();
       
     },
     methods: {
+      async verMensajes() {
+        console.log('pidoooooo');
+        this.recargando=true;
+
+        let respuesta = await fetch(`/verChat/${this.chat_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'token': this.token
+          }
+        });
+
+        // if (respuesta.status != 200) {
+        //   localStorage.removeItem('token');
+        //   window.location.href = 'login.html';
+        //   return;
+        // }
+
+        if (respuesta.status==404) {          
+          this.recargando=false;
+          if (this.msgs.length==0) {
+            this.show_msg='No hay mensajes';
+          }
+          return console.log('No hay datos nuevos')
+        }
+
+        respuesta = await respuesta.json();        
+
+        console.log('llega', respuesta);     
+        this.nombre_chat= respuesta.datos_chat.nombre_chat;
+        this.last_msg_id = respuesta.msgs[0].id;
+        this.msgs = respuesta.msgs;
+        this.recargando=false;
+        if (msgs.length==0) {
+          this.show_msg='No hay mensajes';
+        }
+        
+
+      },
       cerrarSesion(){
         localStorage.removeItem('token');
         window.location.href = 'login.html';
@@ -414,7 +489,7 @@
       },
       async privado() {
         try {
-          respuesta = await fetch('/privado', {
+          let respuesta = await fetch('/privado', {
                                   method: 'GET',
                                   headers: {
                                     'Content-Type': 'application/json',

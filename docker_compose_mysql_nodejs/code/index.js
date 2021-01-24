@@ -198,3 +198,48 @@ app.get('/verChats', verificarAuth, async (req,res)=>{
   }
 
 });
+
+
+app.get('/verChat/:id', verificarAuth, async (req,res)=>{
+
+  // console.log('llega',req.params.id, req.usuario);
+
+  try {
+    // const { nombre_chat, imagen_chat } = req.body;
+    // console.log(req.body);
+    // const mensajes = await db.select('*').from('mensajes').where({chat_id:req.params.id}).orderBy('id','desc');
+    const mensajes = await db.schema.raw(`select c.nombre, m.id, m.mensaje, u.email, m.gendate 
+                                          from mensajes m, chats c, usuarios u 
+                                          where m.chat_id=c.id 
+                                                and m.chat_id=${req.params.id}
+                                                and m.user_id = u.id
+                                          order by m.id desc`);    
+    console.log('mensajes',mensajes)
+    if (!mensajes[0].length) {
+      console.log('no hay mensajes');
+      return res.status(404).json({ msg: 'No hay mensajes' });
+    }
+
+    console.log('sale',mensajes);
+    const datos_chat = {'nombre_chat': mensajes[0][0].nombre};
+    const msgs = [];
+    for (let m in mensajes[0]) {
+      // console.log('m es', m);
+      const r = {};
+      r.id = mensajes[0][m].id;
+      r.mensaje = mensajes[0][m].mensaje;
+      r.autor = mensajes[0][m].email;
+      r.gendate = mensajes[0][m].gendate;
+      msgs.push(r);
+    }
+
+    console.log('envio', datos_chat);
+    
+    res.json({ datos_chat, msgs });
+  } catch (e) {
+    console.log('error', e);
+    res.status(400).json({ msg: 'Error al mostrar chats' });
+  }
+  
+
+});

@@ -78,6 +78,10 @@ CREATE TABLE mensajes (
     FOREIGN KEY (user_id) REFERENCES usuarios(id)
 );
 
+INSERT INTO mensajes (chat_id, user_id, mensaje) VALUES ('34', '27', 'esto es 1'); 
+INSERT INTO mensajes (chat_id, user_id, mensaje) VALUES ('34', '27', 'esto es 2'); 
+INSERT INTO mensajes (chat_id, user_id, mensaje) VALUES ('34', '39','esto es nuevo');
+
 ```
 
 ## Ejemplos knex
