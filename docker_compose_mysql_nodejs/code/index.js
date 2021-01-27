@@ -243,3 +243,25 @@ app.get('/verChat/:id', verificarAuth, async (req,res)=>{
   
 
 });
+
+app.post('/sendMessage', verificarAuth, async (req,res)=>{
+
+  // console.log('entrooooo');
+  // console.log(req.usuario);
+  
+  try {
+    const { id_chat, msg } = req.body;
+    console.log(req.body);
+    const respuesta = await db.schema.raw(`INSERT INTO mensajes (chat_id, user_id, mensaje) VALUES ('${id_chat}', '${req.usuario.userid}', '${msg}');`);    
+    // console.log(respuesta)
+    if (!respuesta.length) {
+      return res.status(400).json({ msg: 'Error al enviar mensaje' });
+    }
+    // console.log('sale', respuesta[0].insertId);
+    res.json({ id_mensaje: respuesta[0] });
+  } catch (e) {
+    console.log('error:', e);
+    res.status(400).json({ msg: 'Error al enviar mensaje' });
+  }
+
+});

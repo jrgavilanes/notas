@@ -128,13 +128,13 @@
             <div>
 
               <div class="control has-icons-left has-icons-right">
-                <input class="input is-medium" type="text" placeholder="Escribe tu mensaje">
+                <input class="input is-medium" type="text" placeholder="Escribe tu mensaje" v-model="msg">
                 <span class="icon is-left">
                   <i class="fas fa-keyboard"></i>
                 </span>              
               </div>
   
-              <button class="button is-medium" @click="verMensajes">
+              <button class="button is-medium" @click="sendMessage">
                 <span class="icon is-small">
                   <i class="fab fa-github"></i>
                 </span>
@@ -404,6 +404,7 @@
     const app = new Vue({
     el: '#app',
     data: {
+      msg: '',
       show_msg: '',
       token: '',
       email:'',
@@ -443,6 +444,23 @@
       
     },
     methods: {
+      async sendMessage() {
+        datos = JSON.stringify({
+            id_chat: this.chat_id,
+            msg: this.msg
+        });
+
+        let respuesta = await fetch(`/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'token': this.token
+          },
+          body: datos
+        });
+        respuesta = await respuesta.json();
+        console.log('puesss', respuesta)
+      },
       async verMensajes() {
         console.log('pidoooooo');
         this.recargando=true;

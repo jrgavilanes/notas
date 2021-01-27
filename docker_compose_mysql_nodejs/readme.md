@@ -3,9 +3,7 @@
 
 ## todo
 
-ver chats en index.html
-ver chat html
-
+ya guardo mensaje enviado, falta refrescar pantalla y propagar por socket.
 
 ## instalar version node concreta
 ```bash
