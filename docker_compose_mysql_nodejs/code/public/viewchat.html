@@ -397,10 +397,21 @@
 
 
 
+  <script src="/socket.io/socket.io.js"></script>
   <script src="./js/jwt-decode.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script> -->
   <script src="/js/vue.js"></script>
+  
   <script>
+
+    const socket = io();
+    
+    socket.on('mensajito', ()=>{
+      console.log('llega algo por socket');
+      app.verMensajes();
+    });
+  
+
     const app = new Vue({
     el: '#app',
     data: {
@@ -459,7 +470,9 @@
           body: datos
         });
         respuesta = await respuesta.json();
-        console.log('puesss', respuesta)
+        // console.log('puesss', respuesta)
+        this.msg = '';
+        socket.emit('mensajito', 'jula');
       },
       async verMensajes() {
         console.log('pidoooooo');
@@ -489,12 +502,12 @@
 
         respuesta = await respuesta.json();        
 
-        console.log('llega', respuesta);     
+        // console.log('llega', respuesta);     
         this.nombre_chat= respuesta.datos_chat.nombre_chat;
         this.last_msg_id = respuesta.msgs[0].id;
         this.msgs = respuesta.msgs;
         this.recargando=false;
-        if (msgs.length==0) {
+        if (this.msgs.length==0) {
           this.show_msg='No hay mensajes';
         }
         

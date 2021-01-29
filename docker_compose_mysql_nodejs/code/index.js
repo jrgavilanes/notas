@@ -18,6 +18,9 @@ const db = require('knex')({
 
 const app = express()
 
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
 // body-parser killer ;-)
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -48,19 +51,19 @@ const verificarAuth = (req, res, next) => {
 }
 
 
-app.get('/', async (req, res) => {
-  // res.send('Hello Worldsa11!')
-  // db.schema.raw('select email from usuarios').then(data=>console.log(data.rows));
-  // const usuarios = await db.schema.raw('select email,password from usuarios where id = 1');
-  const usuarios = await db.select('email','password').from('usuarios').where({id:2});
+// app.get('/', async (req, res) => {
+//   // res.send('Hello Worldsa11!')
+//   // db.schema.raw('select email from usuarios').then(data=>console.log(data.rows));
+//   // const usuarios = await db.schema.raw('select email,password from usuarios where id = 1');
+//   const usuarios = await db.select('email','password').from('usuarios').where({id:2});
   
-  if (usuarios.length) {
-    const {email, password} = usuarios[0];
-    return res.json({email,password});    
-  }
-  res.status(404).json({msg: 'Registro no encontrado'});
+//   if (usuarios.length) {
+//     const {email, password} = usuarios[0];
+//     return res.json({email,password});    
+//   }
+//   res.status(404).json({msg: 'Registro no encontrado'});
 
-});
+// });
 
 app.post('/login', async (req,res)=>{
 
@@ -76,7 +79,7 @@ app.post('/login', async (req,res)=>{
     const userid = datos[0].id;
     const password_encriptado = datos[0].password;
     const email_almacenado = datos[0].email;
-    console.log('llega', userid, password_encriptado);
+    // console.log('llega', userid, password_encriptado);
     const valida = await bcrypt.compare(password, password_encriptado);
     if (valida && email===email_almacenado) {
       const user = {userid, email};
@@ -104,22 +107,42 @@ app.post('/login', async (req,res)=>{
 
 
 
-app.get('/privado', verificarAuth, async (req,res)=>{
+// app.get('/privado', verificarAuth, async (req,res)=>{
 
-  res.json({msg: 'mensaje privado ok'});
+//   res.json({msg: 'mensaje privado ok'});
 
-});
+// });
 
-app.post('/mandanga', (req,res)=>{
-console.log(req.body);
-req.body.id='miide';
-res.status(201).json(req.body);
+// app.post('/mandanga', (req,res)=>{
+// console.log(req.body);
+// req.body.id='miide';
+// res.status(201).json(req.body);
 
-});
+// });
 
-app.listen(port, () => {
+// app.listen(port, () => {
+//   console.log(`Example app listening at http://localhost:${port}`)
+// })
+
+
+http.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
-})
+});
+
+io.on('connection', function(socket) {
+  console.log('A user connected');
+  //Whenever someone disconnects this piece of code executed
+  socket.on('disconnect', function () {
+     console.log('A user disconnected');
+  });
+  socket.on('mensajito',(dato)=>{
+    console.log('llega', dato);
+    // socket.emit('mensajito', 'refresca');
+    io.sockets.emit('mensajito', 'refrescaaaaa');
+  });
+});
+
+
 
 
 
@@ -188,7 +211,7 @@ app.get('/verChats', verificarAuth, async (req,res)=>{
     // const { nombre_chat, imagen_chat } = req.body;
     // console.log(req.body);
     const chats = await db.select('id', 'nombre', 'image_url').from('chats').orderBy('id','desc');
-    console.log(chats)
+    // console.log(chats)
     if (!chats.length) {
       return res.status(404).json({ msg: 'No hay chats' });
     }
@@ -214,13 +237,13 @@ app.get('/verChat/:id', verificarAuth, async (req,res)=>{
                                                 and m.chat_id=${req.params.id}
                                                 and m.user_id = u.id
                                           order by m.id desc`);    
-    console.log('mensajes',mensajes)
+    // console.log('mensajes',mensajes)
     if (!mensajes[0].length) {
       console.log('no hay mensajes');
       return res.status(404).json({ msg: 'No hay mensajes' });
     }
 
-    console.log('sale',mensajes);
+    // console.log('sale',mensajes);
     const datos_chat = {'nombre_chat': mensajes[0][0].nombre};
     const msgs = [];
     for (let m in mensajes[0]) {
@@ -233,7 +256,7 @@ app.get('/verChat/:id', verificarAuth, async (req,res)=>{
       msgs.push(r);
     }
 
-    console.log('envio', datos_chat);
+    // console.log('envio', datos_chat);
     
     res.json({ datos_chat, msgs });
   } catch (e) {
