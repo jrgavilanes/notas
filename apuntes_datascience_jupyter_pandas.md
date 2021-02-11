@@ -1,3 +1,7 @@
+# Apuntes
+
+Pandas: https://github.com/jrgavilanes/notas/blob/main/datascience/apuntes_pandas_juanra.ipynb
+
 
 # Ejercicios PANDAS
 
