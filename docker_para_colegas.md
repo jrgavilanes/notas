@@ -11,8 +11,46 @@ $ sudo usermod -aG docker $USER
 s sudo reboot
 ```
 
+## Kubernetes
 
-## Comandos Básicos
+Instalar cluster local ( minikube )
+
+https://minikube.sigs.k8s.io/docs/start/
+
+
+Recuerda poner esto .bashrc
+
+    alias kubectl="minikube kubectl --"
+
+
+
+### Comandos cluster
+   
+    minikube start
+    minikube dashboard --url
+    minikube stop
+    minikube status
+
+### comandos kubectl
+
+    kubectl run miapp --image=jrgavilanes/mi_nginx --port 8080
+
+    kubectl get pods
+
+    kubectl describe pod miapp
+
+    kubectl expose pod miapp --type=LoadBalancer --port=8080 --target-port=80
+
+    kubectl get services
+
+    kubectl describe service miapp
+
+
+minikube service --url miapp ( me devuelve la url exterior )
+
+
+
+## Comandos Básicos Docker
 ```bash
 docker run debian ping google.es
 
