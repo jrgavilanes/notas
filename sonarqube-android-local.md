@@ -43,7 +43,7 @@ sonarqube
 			property "sonar.language", "kotlin"
 			property "sonar.source", "src/main/java"
 			property "sonar.binaries", "build"
-			property "sonar.sourceincoding", "UTF-8"
+			property "sonar.sourceEncoding", "UTF-8"
 			property "sonar.login", "admin"
 			property "sonar.password", "miclave"
 		}
