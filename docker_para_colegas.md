@@ -49,6 +49,17 @@ Recuerda poner esto .bashrc
 minikube service --url miapp ( me devuelve la url exterior )
 
 
+### sobre secrets
+
+```bash
+janrax@janrax-matebook:~/Escritorio/Code/mi-kubernetes$ echo -n "clave_codificada" | base64
+Y2xhdmVfY29kaWZpY2FkYQ==
+janrax@janrax-matebook:~/Escritorio/Code/mi-kubernetes$ echo 'Y2xhdmVfY29kaWZpY2FkYQ==' | base64 --decode
+clave_codificada
+```
+
+
+
 
 ## Comandos Básicos Docker
 ```bash
