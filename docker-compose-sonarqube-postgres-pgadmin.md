@@ -8,10 +8,10 @@ según pagina hay que configurar estos datos en host-linux
 https://hub.docker.com/_/sonarqube
 
 ```
-sysctl -w vm.max_map_count=524288
-sysctl -w fs.file-max=131072
-ulimit -n 131072
-ulimit -u 8192
+sudo sysctl -w vm.max_map_count=524288
+sudo sysctl -w fs.file-max=131072
+# sudo ulimit -n 131072
+# sudo ulimit -u 8192
 ```
 
 docker-compose.yml
