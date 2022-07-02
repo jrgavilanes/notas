@@ -80,3 +80,70 @@ fun main() {
 
 
 ```
+
+## Lazy Columns ( recycler view)
+
+```kotlin
+import ...
+
+class AppState {
+    var notes = mutableStateOf(getNotes(10))
+}
+
+@Composable
+@Preview
+fun App(appState: AppState) {
+    MaterialTheme {
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(appState.notes.value) { note ->
+                Card(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(0.8f)
+                        .clickable {
+                            println("He pinchado ${note.title}")
+                        }
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Row {
+                            Text(
+                                note.title,
+                                style = MaterialTheme.typography.h5,
+                                modifier = Modifier.weight(1f)
+                            )
+                            if (note.type == Note.NoteType.AUDIO) {
+                                /* https://material.io/icons
+                                   Add dependency implementation(compose.materialIconsExtended) in build.gradle.kts
+                                */
+                                Icon(
+                                    imageVector = Icons.Default.Campaign,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(32.dp)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(note.description, style = MaterialTheme.typography.body1)
+                    }
+                }
+            }
+        }
+    }
+}
+
+fun main() {
+    val appState = AppState()
+    application {
+        Window(onCloseRequest = ::exitApplication) {
+            App(appState)
+        }
+    }
+}
+
+
+```
