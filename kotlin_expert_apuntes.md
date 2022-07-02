@@ -83,6 +83,7 @@ fun main() {
 
 ## Lazy Columns ( recycler view)
 
+main.kt
 ```kotlin
 import ...
 
