@@ -148,3 +148,54 @@ fun main() {
 
 
 ```
+
+## Lambdas
+
+```kotlin
+// Kotlin Apuntes Lambdas
+
+import java.lang.Thread.sleep
+
+
+val f: (Int, Int) -> Int = { a, b ->
+    a + b
+}
+f(2, 3)
+
+fun doOp(x: Int, y: Int, op: (Int, Int) -> Int) = op(x, y)
+doOp(5, 6, { x, y -> x * y })
+doOp(5, 6) { x, y ->
+    x + y
+}
+data class Note(val title: String, val description: String, val type: Type = Type.TEXT) {
+    enum class Type {
+        AUDIO,
+        TEXT
+    }
+}
+
+fun getNotes2(numNotes: Int = 10, callback: (List<Note>) -> Unit) {
+    sleep(2000)
+    val notes = (1..numNotes).map {
+        if (it % 3 == 0) {
+            Note("titulo $it", "desc $it", type = Note.Type.AUDIO)
+        } else {
+            Note("titulo $it", "desc $it", type = Note.Type.TEXT)
+        }
+
+    }
+    callback(notes)
+}
+
+var notes2: List<Note>? = emptyList<Note>()
+getNotes2(3) {
+    notes2 = it
+}
+notes2
+
+
+
+
+
+
+```
